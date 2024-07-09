@@ -6,7 +6,6 @@ import com.allan.montadora.enuns.SituacaoCarro;
 import com.allan.montadora.interfaces.TelaManager;
 import com.allan.montadora.models.Carro;
 import com.allan.montadora.models.CarroData;
-import com.allan.montadora.utils.PlacaMercosulGenerator;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
@@ -15,26 +14,22 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import static com.allan.montadora.utils.AlertUtil.showAlert;
 import static com.allan.montadora.utils.GeradorTela.gerarTela;
 import static java.lang.Thread.sleep;
 
 @Log4j2
 public class MontadoraService implements TelaManager {
 
-    private static MontadoraService instance;
-    private Carro carro;
+    private MontadoraService() {}
 
-    public static MontadoraService getTelaMontadora() {
-        if (instance == null) {
-            instance = new MontadoraService();
-        }
-        return instance;
-    }
+    private Carro carro;
 
     @Override
     public void montarTela(Stage stage) {
@@ -56,7 +51,7 @@ public class MontadoraService implements TelaManager {
     }
 
     public void getModelo(ComboBox<String> comboBoxModelos, ColorPicker selectCores) {
-        String modelo = comboBoxModelos.getValue() == null || comboBoxModelos.getValue().isEmpty() ? null : comboBoxModelos.getValue();
+        String modelo = comboBoxModelos.getValue();
         selectCores.setDisable(modelo == null);
         if (modelo == null) {
             log.info("Modelo não informado.");
@@ -92,13 +87,13 @@ public class MontadoraService implements TelaManager {
             log.info("Carro não informado.");
             return;
         }
-        Carro carroClonado = carro.clone();
-        Task<List<Carro>> task = gerarCarros(carroClonado, value, progressBar);
+        Carro carroClone = carro.clone();
+        Task<List<Carro>> task = gerarCarros(carroClone, value, progressBar);
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
-        showAlert("Geração de Carros Iniciada", "A geração de " + value + " carros foi iniciada!");
+        showAlert(Alert.AlertType.INFORMATION, "Geração de Carros Iniciada", "A geração de " + value + " carros foi iniciada!");
     }
 
     private Task<List<Carro>> gerarCarros(Carro clone, int value, ProgressBar progressBar) {
@@ -123,12 +118,14 @@ public class MontadoraService implements TelaManager {
             @Override
             protected void succeeded() {
                 super.succeeded();
-                getValue().forEach(car -> {
-                    car.finalizarEmplacamento();
-                    CarroData.updateCarro(car);
-                });
-//                showAlert("Geração de Carros Concluída", "A geração de " + value + " carros foi concluída com sucesso!");
-                log.info("Carros gerados: {}", getValue());
+                CarroData.getCarros().forEach(Carro::finalizarEmplacamento);
+                CarroData.getCarros().sort(
+                        Comparator
+                                .comparing(Carro::getMontadora)
+                                .thenComparing(Carro::getPlacaMercosul)
+                                .thenComparing(Carro::getModelo)
+                                .reversed()
+                );
             }
 
             @Override
@@ -140,17 +137,9 @@ public class MontadoraService implements TelaManager {
         };
     }
 
-    private Carro getCarro(Carro carroClonado) {
-        carroClonado.setPlacaMercosul(PlacaMercosulGenerator.gerarPlacaMercosul());
-        CarroData.addCarro(carroClonado);
-        return carroClonado;
-    }
-
-    private void showAlert(String title, String context) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(context);
-        alert.showAndWait();
+    private Carro getCarro(Carro carro) {
+        Carro carroClone = carro.clone();
+        CarroData.addCarro(carroClone);
+        return carroClone;
     }
 }

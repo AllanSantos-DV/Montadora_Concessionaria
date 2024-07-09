@@ -1,6 +1,7 @@
 package com.allan.montadora.models;
 
 import com.allan.montadora.enuns.SituacaoCarro;
+import com.allan.montadora.utils.PlacaMercosulGenerator;
 import javafx.scene.paint.Color;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,7 @@ public class Carro implements Cloneable {
     }
 
     public void finalizarEmplacamento() {
+        this.placaMercosul = PlacaMercosulGenerator.gerarPlacaMercosul();
         this.situacao = SituacaoCarro.DISPONIVEL.getSituacao();
     }
 }

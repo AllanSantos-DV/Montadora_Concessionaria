@@ -2,6 +2,7 @@ package com.allan.montadora.controller;
 
 import com.allan.montadora.enuns.Montadora;
 import com.allan.montadora.services.MontadoraService;
+import com.allan.montadora.utils.SingletonUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,7 +16,7 @@ public class MontadoraController extends BaseController {
 
     private final String cmbMontadora = "Selecione a montadora: ";
     private final String cmbModelo = "Selecione o modelo: ";
-    private final MontadoraService montadoraService = new MontadoraService();
+    private final MontadoraService montadoraService = SingletonUtil.getInstance(MontadoraService.class);
     @FXML
     private ProgressBar progressBar;
     @FXML

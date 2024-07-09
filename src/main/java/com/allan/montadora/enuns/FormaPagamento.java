@@ -29,6 +29,15 @@ public enum FormaPagamento {
         return null;
     }
 
+    public static FormaPagamento getFormaPagamento(String descricao) {
+        for (FormaPagamento formaPagamento : FormaPagamento.values()) {
+            if (formaPagamento.getDescricao().equalsIgnoreCase(descricao)) {
+                return formaPagamento;
+            }
+        }
+        return null;
+    }
+
     public static List<String> getFormasPagamento() {
         List<String> formasPagamento = new ArrayList<>();
         for (FormaPagamento formaPagamento : FormaPagamento.values()) {

@@ -9,7 +9,7 @@ import com.allan.montadora.interfaces.FabricaPagamento;
 
 public class FabricaPagamentos {
 
-    private FabricaPagamento getFabricaPagamento(FormaPagamento formaPagamento) {
+    public static FabricaPagamento getFabricaPagamento(FormaPagamento formaPagamento) {
         return switch (formaPagamento) {
             case DINHEIRO -> new FabricaPagamentoDinheiro();
             case CARTAO_CREDITO -> new FabricaPagamentoCartaoCredito();

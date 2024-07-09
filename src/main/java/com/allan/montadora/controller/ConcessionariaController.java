@@ -5,17 +5,24 @@ import com.allan.montadora.enuns.SituacaoCarro;
 import com.allan.montadora.models.Carro;
 import com.allan.montadora.models.CarroData;
 import com.allan.montadora.services.ConcessionariaService;
+import com.allan.montadora.utils.SingletonUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import lombok.extern.log4j.Log4j2;
+
+import java.util.Objects;
 
 import static com.allan.montadora.MainApp.stage;
 import static com.allan.montadora.utils.TableUtils.configurarColuna;
 import static com.allan.montadora.utils.TableUtils.setCorTableColumn;
 
+@Log4j2
 public class ConcessionariaController extends BaseController {
 
-    private final ConcessionariaService concessionariaService = new ConcessionariaService();
+    private final ConcessionariaService concessionariaService = SingletonUtil.getInstance(ConcessionariaService.class);
+    @FXML
+    private TableColumn<Carro, String> placaCarro;
     @FXML
     private TableColumn<Carro, String> montadoraCarro, modeloCarro, fPagamentoCarro, situacaoCarro;
     @FXML
@@ -33,8 +40,7 @@ public class ConcessionariaController extends BaseController {
 
     public void initialize() {
         formasPagamento.getItems().addAll(FormaPagamento.getFormasPagamento());
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000000, 0);
-        valorVeiculo.setValueFactory(valueFactory);
+        concessionariaService.configSpinner(valorVeiculo);
         valorVeiculo.valueProperty().addListener((obs, oldValue, newValue) -> {
             formasPagamento.setDisable(newValue == null || newValue <= 0);
             btnVender.setDisable(newValue == null || newValue <= 0);
@@ -53,6 +59,7 @@ public class ConcessionariaController extends BaseController {
     }
 
     private void configurarColunas() {
+        configurarColuna(placaCarro, Carro::getPlacaMercosul);
         configurarColuna(montadoraCarro, Carro::getMontadora);
         configurarColuna(modeloCarro, Carro::getModelo);
         configurarColuna(corCarro, Carro::getCor);
@@ -64,11 +71,14 @@ public class ConcessionariaController extends BaseController {
 
     public void venderCarro() {
         Carro carro = tabelaVeiculos.getSelectionModel().getSelectedItem();
-        carro.setFormaPagamento(formasPagamento.getValue());
-        carro.setValor(valorVeiculo.getValue().longValue());
-        carro.setSituacao(SituacaoCarro.VENDIDO.getSituacao());
-        CarroData.updateCarro(carro);
+        if (carro != null) {
+            concessionariaService.vendaCarro(
+                    carro.getPlacaMercosul(),
+                    Objects.requireNonNull(FormaPagamento.getFormaPagamento(formasPagamento.getValue())),
+                    valorVeiculo.getValue());
+        }
+        concessionariaService.configSpinner(valorVeiculo);
+        tabelaVeiculos.refresh();
     }
-
 
 }

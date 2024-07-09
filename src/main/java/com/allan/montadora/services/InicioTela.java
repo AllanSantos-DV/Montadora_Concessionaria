@@ -9,14 +9,7 @@ import static com.allan.montadora.utils.GeradorTela.gerarTela;
 
 public class InicioTela implements TelaManager {
 
-    private static InicioTela instance;
-
-    public static InicioTela getTelaInicio() {
-        if (instance == null) {
-            instance = new InicioTela();
-        }
-        return instance;
-    }
+    private InicioTela() {}
 
     @Override
     public void montarTela(Stage stage) {
