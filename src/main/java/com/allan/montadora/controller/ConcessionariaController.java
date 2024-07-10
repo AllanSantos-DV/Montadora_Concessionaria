@@ -13,7 +13,6 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.Objects;
 
-import static com.allan.montadora.MainApp.stage;
 import static com.allan.montadora.utils.TableUtils.configurarColuna;
 import static com.allan.montadora.utils.TableUtils.setCorTableColumn;
 
@@ -52,10 +51,6 @@ public class ConcessionariaController extends BaseController {
 
         configurarColunas();
         tabelaVeiculos.setItems(CarroData.getCarros());
-    }
-
-    public void chamarMenu() {
-        inicioTela.montarTela(stage);
     }
 
     private void configurarColunas() {

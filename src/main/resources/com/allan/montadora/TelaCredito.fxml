@@ -16,11 +16,6 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
-    <ProgressIndicator fx:id="progress" prefHeight="66.0" prefWidth="69.0" progress="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-        <GridPane.margin>
-            <Insets top="20.0" />
-        </GridPane.margin>
-    </ProgressIndicator>
     <Label text="Pagamento Credito" textAlignment="CENTER" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
         <font>
             <Font name="Bauhaus 93" size="31.0" />
@@ -31,12 +26,12 @@
             <Font size="15.0" />
         </font>
     </Label>
-    <TextField fx:id="precoCarro" alignment="CENTER" editable="false" prefHeight="35.0" prefWidth="200.0" promptText="Preço" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+    <TextField fx:id="precoCarro" alignment="CENTER" editable="false" focusTraversable="false" prefHeight="35.0" prefWidth="200.0" promptText="Preço" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
         <font>
             <Font size="18.0" />
         </font>
     </TextField>
-    <ComboBox fx:id="cmbParcelas" prefWidth="200.0" promptText="Parcelas:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <ComboBox fx:id="cmbParcelas" onAction="#valorFinal" prefWidth="200.0" promptText="Parcelas:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
     <Label text="Quantidade de parcelas:" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
         <GridPane.margin>
             <Insets bottom="45.0" />
@@ -55,14 +50,19 @@
             <Font size="13.0" />
         </font>
     </TextField>
-    <Button fx:id="btnPagar" mnemonicParsing="false" onAction="#realizarPagamento" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: #ccffcc;" text="Pagar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+    <Button fx:id="btnPagar" disable="true" mnemonicParsing="false" onAction="#realizarPagamentoCredito" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: #ccffcc;" text="Pagar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
         <GridPane.margin>
             <Insets right="-20.0" />
         </GridPane.margin>
     </Button>
-    <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#cancelar" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: #ff6347;" text="Cancelar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+    <Button mnemonicParsing="false" onAction="#cancelar" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: #ff6347;" text="Cancelar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
         <GridPane.margin>
             <Insets left="-20.0" />
         </GridPane.margin>
     </Button>
+   <ProgressIndicator fx:id="progress" progress="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <GridPane.margin>
+         <Insets top="20.0" />
+      </GridPane.margin>
+   </ProgressIndicator>
 </GridPane>

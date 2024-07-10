@@ -80,13 +80,12 @@ public class MontadoraService implements TelaManager {
     }
 
     public void gerarCarros(Spinner<Integer> qtdCarros, ProgressBar progressBar) {
-        int value = qtdCarros.getValue() == null ? 0 : qtdCarros.getValue();
-        progressBar.setDisable(value == 0);
-
+        progressBar.setDisable(carro == null);
         if (carro == null) {
             log.info("Carro não informado.");
             return;
         }
+        int value = qtdCarros.getValue();
         Carro carroClone = carro.clone();
         Task<List<Carro>> task = gerarCarros(carroClone, value, progressBar);
 

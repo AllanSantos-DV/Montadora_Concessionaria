@@ -10,13 +10,10 @@ import javafx.scene.paint.Color;
 
 import java.util.Arrays;
 
-import static com.allan.montadora.MainApp.stage;
-
 public class MontadoraController extends BaseController {
 
     private final String cmbMontadora = "Selecione a montadora: ";
     private final String cmbModelo = "Selecione o modelo: ";
-    private final MontadoraService montadoraService = SingletonUtil.getInstance(MontadoraService.class);
     @FXML
     private ProgressBar progressBar;
     @FXML
@@ -28,6 +25,8 @@ public class MontadoraController extends BaseController {
     @FXML
     private ColorPicker selectCores;
 
+    private final MontadoraService montadoraService = SingletonUtil.getInstance(MontadoraService.class);
+
     public void initialize() {
         comboBoxMontadoras.setPromptText(cmbMontadora);
         comboBoxModelos.setPromptText(cmbModelo);
@@ -36,10 +35,6 @@ public class MontadoraController extends BaseController {
         qtdCarros.setValueFactory(valueFactory);
         qtdCarros.valueProperty().addListener((obs, oldValue, newValue) -> btnGerar.setDisable(newValue == null || newValue <= 0));
         comboBoxMontadoras.getItems().addAll(Montadora.getMontadoras());
-    }
-
-    public void chamarMenu() {
-        inicioTela.montarTela(stage);
     }
 
     public void getMontadora() {

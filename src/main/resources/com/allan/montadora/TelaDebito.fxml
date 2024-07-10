@@ -31,22 +31,22 @@
             <Font size="15.0" />
         </font>
     </Label>
-    <TextField fx:id="precoCarro" alignment="CENTER" editable="false" prefHeight="35.0" prefWidth="200.0" promptText="Preço" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+    <TextField fx:id="precoCarro" alignment="CENTER" editable="false" focusTraversable="false" prefHeight="35.0" prefWidth="200.0" promptText="Preço" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
         <font>
             <Font size="18.0" />
         </font>
     </TextField>
-    <PasswordField fx:id="senha" alignment="CENTER" promptText="Digite sua senha" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+    <PasswordField fx:id="senha" alignment="CENTER" focusTraversable="false" promptText="Digite sua senha" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
         <font>
             <Font size="13.0" />
         </font>
     </PasswordField>
-    <Button fx:id="btnPagar" mnemonicParsing="false" onAction="#realizarPagamento" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: #ccffcc;" text="Pagar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+    <Button fx:id="btnPagar" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#realizarPagamento" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: #ccffcc;" text="Pagar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
         <GridPane.margin>
             <Insets right="-20.0" />
         </GridPane.margin>
     </Button>
-    <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#cancelar" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: #ff6347;" text="Cancelar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+    <Button focusTraversable="false" mnemonicParsing="false" onAction="#cancelar" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: #ff6347;" text="Cancelar" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
         <GridPane.margin>
             <Insets left="-20.0" />
         </GridPane.margin>

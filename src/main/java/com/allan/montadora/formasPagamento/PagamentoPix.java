@@ -2,19 +2,25 @@ package com.allan.montadora.formasPagamento;
 
 import com.allan.montadora.MainApp;
 import com.allan.montadora.interfaces.Pagamento;
-import com.allan.montadora.interfaces.TelaManager;
+import com.allan.montadora.models.Carro;
+import com.allan.montadora.models.CarroData;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
 
-import static com.allan.montadora.utils.GeradorTela.gerarTela;
+import java.util.function.Consumer;
 
-public class PagamentoPix implements Pagamento, TelaManager {
+import static com.allan.montadora.utils.GeradorTela.gerarTela;
+import static com.allan.montadora.utils.TimeProgressUtil.configPagamento;
+
+public class PagamentoPix implements Pagamento {
 
     private PagamentoPix() {}
 
     @Override
-    public void realizarPagamento() {
-        System.out.println("Pagamento efetuado via PIX.");
+    public void realizarPagamento(Carro carro, ProgressIndicator progress, Consumer<Void> chamarTelaCallback) {
+        configPagamento(progress, chamarTelaCallback);
+        CarroData.updateCarro(carro);
     }
 
     @Override
@@ -23,4 +29,3 @@ public class PagamentoPix implements Pagamento, TelaManager {
         gerarTela(stage, caminhoFXML, 470, 445, "Pagamento PIX");
     }
 }
-

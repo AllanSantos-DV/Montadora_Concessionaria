@@ -2,19 +2,27 @@ package com.allan.montadora.formasPagamento;
 
 import com.allan.montadora.MainApp;
 import com.allan.montadora.interfaces.Pagamento;
-import com.allan.montadora.interfaces.TelaManager;
+import com.allan.montadora.models.Carro;
+import com.allan.montadora.models.CarroData;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
+import lombok.Setter;
+
+import java.util.function.Consumer;
 
 import static com.allan.montadora.utils.GeradorTela.gerarTela;
+import static com.allan.montadora.utils.TimeProgressUtil.configPagamento;
 
-public class PagamentoCartaoDebito implements Pagamento, TelaManager {
+@Setter
+public class PagamentoCartaoDebito implements Pagamento {
 
     private PagamentoCartaoDebito() {}
 
     @Override
-    public void realizarPagamento() {
-        System.out.println("Pagamento efetuado com cartão de débito.");
+    public void realizarPagamento(Carro carro, ProgressIndicator progress, Consumer<Void> chamarTelaCallback) {
+        configPagamento(progress, chamarTelaCallback);
+        CarroData.updateCarro(carro);
     }
 
     @Override

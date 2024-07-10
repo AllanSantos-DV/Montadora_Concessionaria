@@ -3,20 +3,27 @@ package com.allan.montadora.services;
 import com.allan.montadora.MainApp;
 import com.allan.montadora.enuns.FormaPagamento;
 import com.allan.montadora.enuns.SituacaoCarro;
+import com.allan.montadora.interfaces.FabricaPagamento;
 import com.allan.montadora.interfaces.TelaManager;
 import com.allan.montadora.models.Carro;
 import com.allan.montadora.models.CarroData;
+import com.allan.montadora.utils.FabricaPagamentos;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
+import static com.allan.montadora.MainApp.stage;
 import static com.allan.montadora.utils.GeradorTela.gerarTela;
 
 @Log4j2
 public class ConcessionariaService implements TelaManager {
+
+    @Getter
+    private static Carro carroUpdated;
 
     private ConcessionariaService() {}
 
@@ -46,8 +53,7 @@ public class ConcessionariaService implements TelaManager {
 
     public void vendaCarro(String placa, FormaPagamento formaPagamento, long valor) {
         Carro carro = CarroData.buscarCarro(placa);
-        log.info("Vendendo carro: {}", carro);
-        Carro carroUpdated = Carro.builder()
+        carroUpdated = Carro.builder()
                 .placaMercosul(placa)
                 .montadora(carro.getMontadora())
                 .modelo(carro.getModelo())
@@ -56,8 +62,11 @@ public class ConcessionariaService implements TelaManager {
                 .formaPagamento(formaPagamento.getDescricao())
                 .situacao(SituacaoCarro.VENDIDO.getSituacao())
                 .build();
-        log.info("Carro vendido: {}", carroUpdated);
-        CarroData.updateCarro(carroUpdated);
+        telaConfirmaVenda(formaPagamento);
     }
 
+    private void telaConfirmaVenda(FormaPagamento formaPagamento) {
+        FabricaPagamento fabricaPagamento = FabricaPagamentos.getFabricaPagamento(formaPagamento);
+        fabricaPagamento.criarPagamento().montarTela(stage);
+    }
 }
